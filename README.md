@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/PavolKum/just.MD/actions/workflows/tests.yml/badge.svg)](https://github.com/PavolKum/just.MD/actions/workflows/tests.yml)
 
-![just.MD showing a markdown file in Quick Edit, dark theme](docs/screenshot.png)
+![just.MD stepping through its four themes, then changing a word with Quick Edit](docs/demo.gif)
 
 A small markdown reader and editor that installs from Edge or Chrome as a desktop app.
 Double-click a `.md` file and it opens rendered. Click any text on the page to change it
@@ -94,6 +94,7 @@ On a managed PC, a browser policy may block app installs. The page still works i
 - `icons/` - `icon.svg` is the source; `python tools/make_icons.py` renders the PNGs
 - `tools/serve.py` - the local server; `tools/make_dist.py` - builds the hand-out package;
   `tools/screenshot.py` - renders `docs/screenshot.png` from `docs/screenshot.md`
+- `tools/promo/` - records the README demo (`python tools/promo/make_promo.py`: MP4 plus `docs/demo.gif`)
 - `.github/workflows/tests.yml` - runs the five test suites on Windows for every push
 - `package/` - the hand-out package's own docs and `serve.ps1`
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>just.MD promo stage</title>
+<style>
+  /* 1600x900 stage: the app's window, cut off by the bottom edge, over colour fields that follow the theme */
+  :root { --a: #FFC21A; --b: #FF2E7E; --ground: #0E1116; --ink: #F2EEE8; }
+  html, body { margin: 0; width: 1600px; height: 900px; overflow: hidden; background: var(--ground); transition: background-color 1.2s ease; }
+  .field { position: absolute; inset: -20%; filter: blur(90px); opacity: .55; }
+  .blob { position: absolute; width: 900px; height: 900px; border-radius: 50%; transition: background-color 1.4s ease; }
+  .blob.one { background: var(--a); left: 2%; top: 30%; animation: drift1 14s ease-in-out infinite alternate; }
+  .blob.two { background: var(--b); right: 0%; top: -5%; animation: drift2 17s ease-in-out infinite alternate; }
+  .blob.three { background: var(--a); right: 18%; bottom: -25%; width: 700px; height: 700px; opacity: .6; animation: drift3 11s ease-in-out infinite alternate; }
+  @keyframes drift1 { to { transform: translate(380px, -160px) scale(1.15); } }
+  @keyframes drift2 { to { transform: translate(-420px, 220px) scale(.9); } }
+  @keyframes drift3 { to { transform: translate(-300px, -180px) scale(1.2); } }
+  .grain { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 120%, transparent 40%, rgba(0,0,0,.55) 100%); }
+  .label { position: absolute; left: 71px; top: 40px; font: 600 26px/1 "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+           color: var(--ink); letter-spacing: .5px; display: flex; gap: 14px; align-items: baseline; transition: color 1.2s ease; }
+  .label .name { opacity: .62; font-weight: 400; font-size: 22px; transition: opacity .35s ease; }
+  .label .name.out { opacity: 0; }
+  .window { position: absolute; left: 71px; top: 92px; width: 1080px; height: 700px; border-radius: 12px 12px 0 0; overflow: hidden;
+            transform: scale(1.35); transform-origin: 0 0;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.14), 0 40px 120px rgba(0,0,0,.55), 0 10px 30px rgba(0,0,0,.35); }
+  iframe { width: 1080px; height: 700px; border: 0; display: block; background: #13171D; }
+</style>
+</head>
+<body>
+  <div class="field"><div class="blob one"></div><div class="blob two"></div><div class="blob three"></div></div>
+  <div class="grain"></div>
+  <div class="label"><span>just.MD</span><span class="name" id="name">Signature</span></div>
+  <div class="window"><iframe id="app" src="../../index.html"></iframe></div>
+<script>
+  // Colour fields per theme: the theme's two accents and a ground that sits behind the window.
+  const LOOK = {
+    dark:      { a: "#FFC21A", b: "#FF2E7E", ground: "#0E1116", ink: "#F2EEE8", name: "Signature" },
+    light:     { a: "#F5D58A", b: "#F2A7C3", ground: "#D9D2C6", ink: "#1E1A16", name: "Light" },
+    blackwall: { a: "#E6424F", b: "#8C5A5E", ground: "#140F10", ink: "#F0DCDC", name: "Blackwall" },
+    synthwave: { a: "#5CF2C2", b: "#FF7EDB", ground: "#120E1F", ink: "#EDE6FF", name: "Synthwave" },
+  };
+  const root = document.documentElement.style;
+  function apply(id) {
+    const l = LOOK[id] || LOOK.dark;
+    root.setProperty("--a", l.a); root.setProperty("--b", l.b); root.setProperty("--ground", l.ground); root.setProperty("--ink", l.ink);
+    const n = document.getElementById("name");
+    if (n.textContent !== l.name) { n.classList.add("out"); setTimeout(() => { n.textContent = l.name; n.classList.remove("out"); }, 350); }
+  }
+  const frame = document.getElementById("app");
+  frame.addEventListener("load", () => {
+    const html = frame.contentDocument.documentElement;
+    apply(html.dataset.theme);
+    new MutationObserver(() => apply(html.dataset.theme)).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
+  });
+</script>
+</body>
+</html>

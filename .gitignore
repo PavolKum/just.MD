@@ -2,3 +2,4 @@ dist/
 tests/_shots/
 __pycache__/
 tools/serve.log
+tools/promo/out/
