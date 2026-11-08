@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-mode="quick" data-empty="true">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>just.MD</title>
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#1B2027" id="theme-color">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="strip" id="strip">
+    <div class="strip-file">
+      <!-- the app mark without its tile; the weave gaps take the strip colour, the cream bar the theme's text colour -->
+      <svg class="appicon" viewBox="112 112 288 288" aria-hidden="true">
+        <rect x="118" y="178" width="276" height="48" rx="24" fill="#FF2E7E"/>
+        <rect x="118" y="286" width="276" height="48" rx="24" class="ai-bar"/>
+        <rect x="178" y="106" width="72" height="300" rx="36" class="ai-gap"/>
+        <rect x="274" y="106" width="72" height="300" rx="36" class="ai-gap"/>
+        <rect x="190" y="118" width="48" height="276" rx="24" fill="#FFC21A"/>
+        <rect x="286" y="118" width="48" height="276" rx="24" fill="#FFC21A"/>
+        <rect x="286" y="166" width="48" height="72" class="ai-gap"/>
+        <rect x="270" y="178" width="80" height="48" fill="#FF2E7E"/>
+        <rect x="190" y="274" width="48" height="72" class="ai-gap"/>
+        <rect x="174" y="286" width="80" height="48" class="ai-bar"/>
+      </svg>
+      <span class="mark" id="mark" aria-hidden="true">
+        <i class="dot"></i>
+        <i class="fail">!</i>
+        <svg class="check" viewBox="0 0 12 12"><path d="M2.2 6.4 4.8 9 9.8 3.4" pathLength="1"/></svg>
+      </span>
+      <span class="name" id="name">just.MD</span>
+      <span class="status" id="status" role="status" aria-live="polite"></span>
+      <span class="stamp" id="stamp"></span>
+      <button type="button" class="savebtn" id="btn-save" data-tip="Save (Ctrl+S)">Save</button>
+      <button type="button" class="savebtn saveas" id="btn-saveas" data-tip="Save as (Ctrl+Shift+S)">Save as...</button>
+      <span class="note" id="note" role="status" aria-live="polite" hidden></span>
+    </div>
+    <div class="strip-tools">
+      <!-- gear sits left of the pill, away from Edge's own "..." button at the window edge -->
+      <button type="button" class="icon more" id="btn-more" data-tip="Commands (Ctrl+K)" aria-label="Commands">
+        <svg viewBox="0 0 16 16" class="ic"><circle cx="8" cy="8" r="2.1"/><circle cx="8" cy="8" r="4.7"/><path stroke-width="2.2" d="M12.9 8h1.5M11.5 11.5l1.1 1.1M8 12.9v1.5M4.5 11.5l-1.1 1.1M3.1 8H1.6M4.5 4.5 3.4 3.4M8 3.1V1.6M11.5 4.5l1.1-1.1"/></svg>
+      </button>
+      <div class="pill" id="pill" role="group" aria-label="Mode">
+        <span class="thumb" aria-hidden="true"></span>
+        <button type="button" data-mode="quick" aria-pressed="true" title="Edit the words on the page (Ctrl+E)">Quick edit</button>
+        <button type="button" data-mode="raw" aria-pressed="false" title="Edit the markdown source (Ctrl+E)">Raw</button>
+      </div>
+      <div class="tools" id="tools">
+        <button type="button" class="icon" id="btn-copy-all" data-tip="Copy all markdown" aria-label="Copy all markdown">
+          <svg viewBox="0 0 16 16" class="ic"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M3.5 10.5h-.5a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v.5"/></svg>
+          <svg viewBox="0 0 16 16" class="ok"><path d="M3.5 8.4 6.6 11.4 12.6 4.8" pathLength="1"/></svg>
+        </button>
+      </div>
+      <button type="button" class="icon theme" id="btn-theme" data-tip="Theme (Ctrl+Shift+L)" aria-label="Theme" aria-haspopup="menu" aria-expanded="false" popovertarget="theme-menu">
+        <span class="sw" id="theme-sw" data-t="dark"></span>
+      </button>
+    </div>
+  </header>
+  <div class="tip-bubble" id="tip" role="tooltip"></div>
+
+  <main id="scroller">
+    <section class="empty" id="empty">
+      <div class="drop">
+        <p class="drop-title">Drop a markdown file here</p>
+        <p class="drop-open"><button type="button" class="btn" id="btn-open">Open file</button><span class="keys"><kbd>Ctrl</kbd><kbd>O</kbd></span></p>
+      </div>
+      <p class="empty-line"><kbd>Ctrl</kbd><kbd>K</kbd> commands <span class="sep">-</span> click text to edit</p>
+      <p class="install">Install this page as an app in Edge or Chrome to open <code>.md</code> files with a double-click.</p>
+    </section>
+
+    <div class="sheet" id="sheet">
+      <article id="page" class="md" contenteditable="true" spellcheck="false" aria-label="Document, Quick Edit"></article>
+      <pre class="rawhl" id="rawhl" aria-hidden="true"></pre>
+      <textarea id="raw" spellcheck="false" aria-label="Markdown source"></textarea>
+      <div class="ov rail hover" id="ov-hover" aria-hidden="true"></div>
+      <div class="ov rail caret" id="ov-caret" aria-hidden="true"></div>
+      <div class="ov wash" id="ov-wash" aria-hidden="true"></div>
+      <div class="ov deny" id="ov-deny" aria-hidden="true"></div>
+      <div class="ov band" id="ov-band" aria-hidden="true"></div>
+      <div class="ov line" id="ov-line" aria-hidden="true"></div>
+      <div class="refuse" id="refuse" role="status" aria-live="polite">
+        <span class="refuse-text" id="refuse-text"></span>
+        <button type="button" class="refuse-raw" id="refuse-raw" tabindex="-1">Open in Raw <kbd>Ctrl+E</kbd></button>
+      </div>
+      <div class="ov chip" id="ov-chip" aria-hidden="true">Raw only <span>Ctrl+E</span></div>
+      <div class="mirror" id="mirror" aria-hidden="true"></div>
+    </div>
+  </main>
+
+  <div class="veil" id="veil" aria-hidden="true"><div class="veil-frame">Drop to open</div></div>
+
+  <dialog class="palette" id="palette" aria-label="Commands">
+    <input id="palette-input" type="text" placeholder="Type a command" autocomplete="off" spellcheck="false" aria-label="Filter commands">
+    <ul id="palette-list" role="listbox"></ul>
+  </dialog>
+
+  <script src="vendor/marked-18.1.3.umd.js"></script>
+  <script src="vendor/purify-3.4.17.min.js"></script>
+  <script src="vendor/highlight-11.12.0.min.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

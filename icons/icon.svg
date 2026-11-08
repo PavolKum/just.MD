@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- just.MD: a woven hash. Pink across the top, cream across the bottom, gold down; over and under at the crossings. -->
+  <rect width="512" height="512" rx="112" fill="#13171D"/>
+  <rect x="6" y="6" width="500" height="500" rx="106" fill="none" stroke="#2A3038" stroke-width="12"/>
+  <rect x="118" y="178" width="276" height="48" rx="24" fill="#FF2E7E"/>
+  <rect x="118" y="286" width="276" height="48" rx="24" fill="#F3EEE3"/>
+  <rect x="178" y="106" width="72" height="300" rx="36" fill="#13171D"/>
+  <rect x="274" y="106" width="72" height="300" rx="36" fill="#13171D"/>
+  <rect x="190" y="118" width="48" height="276" rx="24" fill="#FFC21A"/>
+  <rect x="286" y="118" width="48" height="276" rx="24" fill="#FFC21A"/>
+  <rect x="286" y="166" width="48" height="72" fill="#13171D"/>
+  <rect x="270" y="178" width="80" height="48" fill="#FF2E7E"/>
+  <rect x="190" y="274" width="48" height="72" fill="#13171D"/>
+  <rect x="174" y="286" width="80" height="48" fill="#F3EEE3"/>
+</svg>
